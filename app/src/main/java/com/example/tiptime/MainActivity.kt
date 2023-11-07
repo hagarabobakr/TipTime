@@ -40,6 +40,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tiptime.ui.theme.TipTimeTheme
 import java.text.NumberFormat
+import androidx.annotation.DrawableRes
+import androidx.compose.material3.Icon
+import androidx.compose.ui.res.painterResource
 
 
 class MainActivity : ComponentActivity() {
@@ -83,6 +86,7 @@ fun TipTimeLayout(){
         EditNumberField(value = amountInput,
             onValueChanged = {amountInput = it },
              label =  R.string.bill_amount,
+            leadingIcon = R.drawable.money,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
@@ -92,6 +96,7 @@ fun TipTimeLayout(){
                 .fillMaxWidth())
         EditNumberField(
             label = R.string.how_was_the_service,
+            leadingIcon = R.drawable.percent,
             value = tipInput,
             onValueChanged = {tipInput = it },
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -128,11 +133,13 @@ private fun calculateTip(amount : Double, tipPercent : Double = 15.0, roundUp: B
 fun EditNumberField(value : String,
                     onValueChanged : (String) -> Unit,
                     @StringRes label : Int,
+                    @DrawableRes leadingIcon: Int,
                     keyboardOptions: KeyboardOptions,
                     modifier: Modifier = Modifier) {
 
     TextField(
         value = value,
+        leadingIcon = { Icon(painter = painterResource(id = leadingIcon), null) },
         onValueChange = onValueChanged ,
         modifier = modifier,
         label = { Text(text = stringResource(id = label))},
